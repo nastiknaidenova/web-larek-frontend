@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Studio-Yandex-Practicum/Premium_product_bot_team_3">
+  <a href="https://github.com/nastiknaidenova/web-larek-frontend">
     <img src="src/images/logo.svg" alt="Logo" width="320" height="180">
   </a>
 
