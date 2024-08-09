@@ -273,7 +273,7 @@ yarn build
       <p>Конструктор: <code>constructor(container: HTMLElement, events: EventEmitter)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент, в который будет встроен компонент корзины. <code>events</code> - экземпляр <code>EventEmitter</code>, используемый для обработки событий.</p>
       <p>Поля:
         <ul>
-          <li>_list: HTMLElement<code></code> - HTML-элемент для отображения списка товаров в корзине.</li>
+          <li><code>_list: HTMLElement</code> - HTML-элемент для отображения списка товаров в корзине.</li>
           <li><code>_total: HTMLElement</code> - HTML-элемент для отображения общей стоимости товаров в корзине.</li>
           <li><code>_button: HTMLElement</code> - HTML-элемент кнопки оформления заказа.</li>
         </ul>
@@ -287,44 +287,54 @@ yarn build
       </p>
     </li>
     <li>Класс <code>Modal</code> расширяет базовый класс <code>Component&ltT&gt</code>
-      <p>Этот класс представляет собой</p>
-      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Этот класс представляет собой модальное окно в интерфейсе. Он обеспечивает отображение контента в модальном окне, управление его открытием и закрытием, а также возможность передачи данных через события.</p>
+      <p>Конструктор: <code>constructor(container: HTMLElement, events: IEvents)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент модального окна. <code>events</code> - экземпляр <code>IEvents</code>, используемый для обработки событий.</p>
       <p>Поля:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>_closeButton: HTMLButtonElement</code> - HTML-кнопка для закрытия модального окна.</li>
+          <li><code>_content: HTMLElement</code> - HTML-элемент для отображения контента в модальном окне.</li>
         </ul>
       </p>
       <p>Методы:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>set content(value: HTMLElement): void</code> - устанавливает контент в модальном окне.</li>
+          <li><code>open(): void</code> - открывает модальное окно.</li>
+          <li><code>close(): void</code> - акрывает модальное окно.</li>
+          <li><code>render(data: IModalData): HTMLElement</code> - обновляет состояние модального окна и открывает его.</li>
         </ul>
       </p>
     </li>
     <li>Класс <code>Page</code> расширяет базовый класс <code>Component&ltT&gt</code>
-      <p>Этот класс представляет собой</p>
-      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Этот класс представляет собой страницу интерфейса. Он содержит элементы страницы, такие как счетчик товаров в корзине, каталог товаров, обертку страницы и элемент корзины, и обеспечивает их отображение и взаимодействие с помощью событий.</p>
+      <p>Конструктор: <code>constructor(container: HTMLElement, events: IEvents)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент страницы. <code>events</code> - экземпляр <code>IEvents</code>, используемый для обработки событий.</p>
       <p>Поля:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>_counter: HTMLElement </code> - HTML-элемент для отображения счетчика товаров в корзине.</li>
+          <li><code>_catalog: HTMLElement</code> - HTML-элемент для отображения каталога товаров.</li>
+          <li><code>_wrapper: HTMLElement</code> - HTML-элемент для обертки контента страницы.</li>
+          <li><code>_basket: HTMLElement</code> - HTML-элемент для отображения корзины.</li>
         </ul>
       </p>
       <p>Методы:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>set counter(value: number): void </code> - устанавливает значение счетчика товаров в корзине.</li>
+          <li><code>set catalog(items: HTMLElement[]): void</code> - устанавливает список товаров в каталоге.</li>
+          <li><code>set locked(value: boolean): void</code> - блокирует или разблокирует страницу.</li>
         </ul>
       </p>
     </li>
     <li>Класс <code>Success</code> расширяет базовый класс <code>Component&ltT&gt</code>
-      <p>Этот класс представляет собой</p>
-      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Этот класс представляет собой компонент для отображения сообщения об успешном завершении операции. Он содержит элементы для отображения общей информации об успешной операции и кнопку для закрытия сообщения.</p>
+      <p>Конструктор: <code>constructor(container: HTMLElement, actions: ISuccessActions)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент для отображения компонента. <code>actions</code> - объект с действиями, которые можно выполнить после успешной операции.</p>
       <p>Поля:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>_close: HTMLElement</code> - HTML-элемент кнопки закрытия сообщения.</li>
+          <li><code>_total: HTMLElement</code> - HTML-элемент для отображения общей цены об успешной операции.</li>
         </ul>
       </p>
       <p>Методы:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>setText(element: HTMLElement, text: string): void</code> - устанавливает текстовое содержимое элемента DOM.</li>
         </ul>
       </p>
     </li>
@@ -347,30 +357,35 @@ yarn build
       </p>
     </li>
     <li>Класс <code>Order</code> расширяет базовый класс <code>Form&ltT&gt</code>
-      <p>Этот класс представляет собой</p>
-      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Этот класс представляет собой форму для оформления заказа. Он наследует функциональность класса Form и добавляет методы для управления выбором способа оплаты и установки адреса доставки.</p>
+      <p>Конструктор: <code>constructor(container: HTMLFormElement, events: IEvents)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-форма для оформления заказа. <code>events</code> - экземпляр <code>IEvents</code>, используемый для обработки событий.</p>
       <p>Поля:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>_paymentContainer: HTMLDivElement</code> - контейнер для отображения кнопок выбора способа оплаты.</li>
+          <li><code>_paymentButton: HTMLButtonElement[]</code> - массив кнопок выбора способа оплаты.</li>
+          <li><code>_addressInput: HTMLButtonElement</code> - контейнер для отображения адреса доставки.</li>
         </ul>
       </p>
       <p>Методы:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>setToggleClassPayment(className: string): void</code> - устанавливает активный класс для кнопки выбора способа оплаты.</li>
+          <li><code>set address(value: string): void</code> - устанавливает значение поля адреса доставки в форме.</li>
         </ul>
       </p>
     </li>
     <li>Класс <code>Contacts</code> расширяет базовый класс <code>Form&ltT&gt</code>
-      <p>Этот класс представляет собой</p>
-      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Этот класс представляет собой форму для ввода контактной информации (телефона и email) при оформлении заказа. Он наследует функциональность класса Form и добавляет методы для установки значений полей телефона и email.</p>
+      <p>Конструктор: <code>constructor(container: HTMLFormElement, events: IEvents)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-форма для ввода контактной информации. <code>events</code> - экземпляр <code>IEvents</code>, используемый для обработки событий.</p>
       <p>Поля:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>_phoneInput: HTMLButtonElement</code> - контейнер для поля телефона в форме.</li>
+          <li><code>_emailInput: HTMLButtonElement</code> - контейнер для поля email в форме.</li>
         </ul>
       </p>
       <p>Методы:
         <ul>
-          <li><code></code> - .</li>
+          <li><code>set phone(value: string): void</code> - устанавливает значение поля телефона в форме.</li>
+          <li><code>set email(value: string): void</code> - устанавливает значение поля email в форме.</li>
         </ul>
       </p>
     </li>
