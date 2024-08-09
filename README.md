@@ -122,12 +122,34 @@ yarn build
 Опишем послойно классы проекта и их взаимодействия.
 ***
 <details><a name="слой-модели"></a>
-  <summary>Слой модели</summary>
+  <summary>Слой модели (Model)</summary>
   <ul>
-    <li><u>Базовый класс бизнес-модели <code>Model</code></u>
+    <li>Класс <code>Api</code>
+      <p>Класс обеспечивает обмен данными с сервером с помощью методов <code>GET</code> и <code>POST</code>. В конструктор входит два аргумента:  <code>baseURL</code> - базовый URL и <code>option</code> - запросы. При отсутствии <code>option</code> используется пустой объект.</p>
+      <p>Методы:
+        <ul>
+          <li><code>GET</code> - запрашивает данные от сервера.</li>
+          <li><code>POST</code> - передаёт данные на сервер.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Базовый класс бизнес-модели <code>Model</code>
       <p>От этого класса наследуются <code>Product</code> и <code>AppState</code>. Конструктор принимает начальный данные для модели и объект событий для уведомления об изменениях в модели. Класс содержит метод <code>emitChange</code>, для того чтобы вызывать событие из компонента.</p>
-      <p>Конструктор: <code>constructor(data: Partial<T>, protected events: IEvents)</code>. Аргументами конструктора являются частичные данные типа <code>T</code> и объект событий <code>IEvents</code>. Частичные данные <code>T</code> представляют структуру данных, которая используется для инициализации экземпляра класса. Объект <code>IEvents</code> содержит определения различных событий, которые могут быть сгенерированы и обработаны внутри класса.</p>
-      <p>Метод <code>emitChange</code>: используется для уведомления других частей приложения о том, что модель была изменена.</p>
+      <p>Конструктор: <code>constructor(data: Partial&ltT&gt, protected events: IEvents)</code>.<br />Аргументами конструктора являются частичные данные типа <code>T</code> и объект событий <code>IEvents</code>. Частичные данные <code>T</code> представляют структуру данных, которая используется для инициализации экземпляра класса. Объект <code>IEvents</code> содержит определения различных событий, которые могут быть сгенерированы и обработаны внутри класса.</p>
+      <p>Методы:
+        <ul>
+          <li><code>emitChange</code> - используется для уведомления других частей приложения о том, что модель была изменена.</li>
+        </ul>
+    </li>
+    <li>Класс <code>AppState</code> наследуется от <code>Model</code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
+    <li>Класс <code>Product</code> наследуется от <code>Model</code>
+      <p></p>
+      <p></p>
+      <p></p>
     </li>
   </ul>
 </details>
@@ -135,18 +157,56 @@ yarn build
 ***
 ***
 <details><a name="слой-представления"></a>
-  <summary>Слой представления</summary>
+  <summary>Слой представления (View)</summary>
   <ul>
-    <li>Базовый класс</li>
+    <li>Базовый класс <code>Component&ltT&gt</code>
+      <p>Это базовый абсткратный класс для отображения компонентов, от него наследуются компоненты представления.</p>
+      <p>Конструктор: <code>constructor(protected readonly container: HTMLElement)</code>. В конструктор входит один аргумент- начальные данные для модели.</p>
+      <p>
+        <ul>
+          <li><code>toggleClass</code> - переключает классы элемента.</li>
+          <li><code>setText</code> - устанавливает текст содержимого.</li>
+          <li><code>setDisable</code> - устанавливает статус <code>Disabled</code>.</li>
+          <li><code>setHidden</code> - скрывает элемент.</li>
+          <li><code>setVisible</code> - покаызвает элемент.</li>
+          <li><code>setImage</code> - устанавливает изображение с альтернативным текстом.</li>
+          <li><code>render</code> - отображает возвращаемое значение элемента.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code></code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
+    <li>Класс <code></code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
   </ul>
 </details>
 
 ***
 ***
 <details><a name="слой-презентера"></a>
-  <summary>Слой презентера</summary>
+  <summary>Слой презентера (Presenter)</summary>
   <ul>
-    <li>Базовый класс</li>
+    <li>Базовый класс <code></code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
+    <li>Класс <code></code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
+    <li>Класс <code></code>
+      <p></p>
+      <p></p>
+      <p></p>
+    </li>
   </ul>
 </details>
 
