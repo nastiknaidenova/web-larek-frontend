@@ -124,7 +124,7 @@ yarn build
 <details><a name="слой-модели"></a>
   <summary>Слой модели (Model)</summary>
   <ul>
-    <li>Класс <code>Api</code>
+    <li>Базовый класс <code>Api</code>
       <p>Класс обеспечивает обмен данными с сервером с помощью методов <code>GET</code> и <code>POST</code>. В конструктор входит два аргумента:  <code>baseURL</code> - базовый URL и <code>option</code> - запросы. При отсутствии <code>option</code> используется пустой объект.</p>
       <p>Методы:
         <ul>
@@ -133,7 +133,18 @@ yarn build
         </ul>
       </p>
     </li>
-    <li>Базовый класс бизнес-модели <code>Model</code>
+    <li>Класс <code>LarekAPI</code> расширяет базовый класс <code>Api</code> и реализует интерфейс <code>ILarekAPI</code>
+      <p>Класс LarekAPI предоставляет интерфейс для работы с продуктами и заказами через API. Он инкапсулирует логику получения данных и их обработки.</p>
+      <p>Конструктор: <code>constructor(cdn: string, baseUrl: string, options?: RequestInit)</code>.<br />Принимает аргументы <code>cdn</code> (базовый URL для изображений), <code>baseUrl</code> (базовый URL API) и опциональные настройки запроса. </p>
+      <p>Методы:
+        <ul>
+          <li><code>getProduct (id: string): Promise&ltIProduct&gt</code> - отправляет запрос на сервер для получения информации о продукте с указанным идентификатором.</li>
+          <li><code>getProductList (): Promise&ltIProduct[]&gt</code> - отправляет запрос на сервер для получения списка всех товаров.</li>
+          <li><code>orderProduct (order: IOrder): Promise&ltIOrderResult&gt</code> - отправляет запрос на сервер для оформления заказа с указанными данными.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Базовый класс бизнес-модели <code>Model&ltT&gt</code>
       <p>От этого класса наследуются <code>Product</code> и <code>AppState</code>. Конструктор принимает начальный данные для модели и объект событий для уведомления об изменениях в модели. Класс содержит метод <code>emitChange</code>, для того чтобы вызывать событие из компонента.</p>
       <p>Конструктор: <code>constructor(data: Partial&ltT&gt, protected events: IEvents)</code>.<br />Аргументами конструктора являются частичные данные типа <code>T</code> и объект событий <code>IEvents</code>. Частичные данные <code>T</code> представляют структуру данных, которая используется для инициализации экземпляра класса. Объект <code>IEvents</code> содержит определения различных событий, которые могут быть сгенерированы и обработаны внутри класса.</p>
       <p>Методы:
@@ -142,7 +153,7 @@ yarn build
         </ul>
       </p>
     </li>
-    <li>Класс <code>AppState</code> наследуется от <code>Model</code>
+    <li>Класс <code>AppState</code> расширяет базовый класс <code>Model&ltT&gt</code>
       <p>Этот класс представляет собой модель приложения и содержит данные о каталоге товаров, корзине, заказе, предпросмотре товара, ошибках формы и методах для управления этими данными. </p>
       <p>Конструктор: не принимает аргументов и инициализирует поля класса соответствующими значениями.</p>
       <p>Поля:
@@ -174,7 +185,7 @@ yarn build
         </ul>
       </p>
     </li>
-    <li>Класс <code>Product</code> наследуется от <code>Model</code>
+    <li>Класс <code>Product</code> расширяет базовый класс <code>Model&ltT&gt</code>
       <p>Этот класс представляет собой модель продукта в интернет-магазине. Он содержит информацию о продукте, такую как идентификатор, описание, изображение, название, категория и цена.</p>
       <p>Конструктор: <code>constructor(data: IProduct)</code><br />В качестве аргумента конструктор принимает <code>data</code> - объект типа <code>IProduct</code>, содержащий информацию о продукте.</p>
       <p>Поля:
@@ -198,7 +209,7 @@ yarn build
   <ul>
     <li>Базовый класс <code>Component&ltT&gt</code>
       <p>Это базовый абсткратный класс для отображения компонентов, от него наследуются компоненты представления.</p>
-      <p>Конструктор: <code>constructor(protected readonly container: HTMLElement)</code>. В конструктор входит один аргумент- начальные данные для модели.</p>
+      <p>Конструктор: <code>constructor(protected readonly container: HTMLElement)</code>.<br /> В конструктор входит один аргумент - начальные данные для модели.</p>
       <p>Методы:
         <ul>
           <li><code>toggleClass</code> - переключает классы элемента.</li>
@@ -211,15 +222,157 @@ yarn build
         </ul>
       </p>
     </li>
-    <li>Класс <code></code>
-      <p></p>
-      <p></p>
-      <p></p>
+    <li>Класс <code>Card&ltT&gt</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой компонент карточки товара. Он используется для отображения информации о товаре, включая название, изображение, цену, категорию, описание и кнопки для взаимодействия.</p>
+      <p>Конструктор: <code>constructor(blockName: string, container: HTMLElement, action?: ICardAction)</code>.<br />Аргументами конструктора являются <code>blockName</code> - строка, указывающая на имя блока (класс CSS) для элементов карточки товара; <code>container</code> - HTML-элемент, в который будет встроен компонент карточки товара; <code>action</code> - объект типа <code>ICardAction</code>, содержащий действие для кнопки карточки товара (например, обработчик события клика).</p>
+      <p>Поля:
+        <ul>
+          <li><code>_title</code> - HTML-элемент для отображения названия товара.</li>
+          <li><code>_image</code> - HTML-элемент для отображения изображения товара.</li>
+          <li><code>_category</code> - HTML-элемент для отображения категории товара.</li>
+          <li><code>_description</code> - HTML-элемент для отображения описания товара.</li>
+          <li><code>_price</code> - HTML-элемент для отображения цены товара.</li>
+          <li><code>_button</code> - HTML-элемент для отображения кнопки карточки товара.</li>
+          <li><code>_buttonModal</code> - HTML-элемент для отображения кнопки модального окна.</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code>priceDisabled(value: number | null)</code> - отключает кнопку карточки товара, если цена не указана (null).</li>
+          <li><code>set id(value: string)</code> - устанавливает идентификатор товара.</li>
+          <li><code>set title(value: string)</code> - устанавливает название товара.</li>
+          <li><code>set buttonTitle(value: string)</code> - устанавливает текст на кнопке карточки товара.</li>
+          <li><code>set image(value: string)</code> - устанавливает изображение товара.</li>
+          <li><code>set price(value: number | null)</code> - устанавливает цену товара.</li>
+          <li><code>set category(value: string)</code> - устанавливает категорию товара.</li>
+          <li><code>set description(value: string | string[])</code> - устанавливает описание товара.</li>
+        </ul>
+      </p>
     </li>
-    <li>Класс <code></code>
-      <p></p>
-      <p></p>
-      <p></p>
+    <li>Класс <code>BasketItem</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой элемент корзины, отображающий информацию о товаре (номер, название, цена) и кнопку для удаления товара из корзины. Он наследует функциональность класса Component и добавляет методы для управления отображением информации о товаре.</p>
+      <p>Конструктор: <code>constructor(container: HTMLElement, index: number, action?: ICardAction)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент для отображения элемента корзины. <code>index</code> - номер товара в корзине. <code>action</code> - действие, которое будет выполнено при нажатии на кнопку элемента корзины.</p>
+      <p>Поля:
+        <ul>
+          <li><code>_index: HTMLElement</code> - HTML-элемент для отображения номера товара в корзине.</li>
+          <li><code>_title: HTMLElement </code> - HTML-элемент для отображения названия товара.</li>
+          <li><code>_price: HTMLElement</code> - HTML-элемент для отображения цены товара.</li>
+          <li><code>_button: HTMLButtonElement</code> - HTML-кнопка для удаления товара из корзины.</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code>set index(value: number): void</code> - устанавливает значение индекса товара в корзине и обновляет соответствующий элемент DOM.</li>
+          <li><code>set title(value: string): void</code> - устанавливает название товара и обновляет соответствующий элемент DOM.</li>
+          <li><code>set price(value: number): void</code> - устанавливает цену товара и обновляет соответствующий элемент DOM.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Basket</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой компонент корзины в интернет-магазине. Он отображает список выбранных товаров, общую стоимость и кнопку для оформления заказа.</p>
+      <p>Конструктор: <code>constructor(container: HTMLElement, events: EventEmitter)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент, в который будет встроен компонент корзины. <code>events</code> - экземпляр <code>EventEmitter</code>, используемый для обработки событий.</p>
+      <p>Поля:
+        <ul>
+          <li>_list: HTMLElement<code></code> - HTML-элемент для отображения списка товаров в корзине.</li>
+          <li><code>_total: HTMLElement</code> - HTML-элемент для отображения общей стоимости товаров в корзине.</li>
+          <li><code>_button: HTMLElement</code> - HTML-элемент кнопки оформления заказа.</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code>disableButton(value: string): void</code> - устанавливает состояние кнопки (активна/неактивна).</li>
+          <li><code>set items(items: HTMLElement[]): void</code> - устанавливает список товаров в корзине.</li>
+          <li><code>set total(total: number): void</code> - устанавливает общую стоимость товаров в корзине.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Modal</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой</p>
+      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Поля:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Page</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой</p>
+      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Поля:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Success</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой</p>
+      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Поля:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+    </li>
+    <li>Базовый класс <code>Form&ltT&gt</code> расширяет базовый класс <code>Component&ltT&gt</code>
+      <p>Этот класс представляет собой компонент формы в интерфейсе. Он обеспечивает взаимодействие с формой, включая обработку ввода данных, валидацию и отправку данных.</p>
+      <p>Конструктор: <code>constructor(container: HTMLFormElement, events: IEvents)</code>.<br />Аргументами конструктора являются <code>container</code> - HTML-элемент формы. <code>events</code> - экземпляр <code>IEvents</code>, используемый для обработки событий.</p>
+      <p>Поля:
+        <ul>
+          <li><code>_submit: HTMLButtonElement</code> - HTML-элемент кнопки отправки формы.</li>
+          <li><code>_errors: HTMLElement</code> - HTML-элемент для отображения ошибок валидации формы.</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code>onInputChange(field: keyof T, value: string): void</code> - обработчик изменения значения в поле формы.</li>
+          <li><code>set valid(value: boolean): void</code> - устанавливает состояние кнопки отправки формы (активна/неактивна).</li>
+          <li><code>set errors(value: string): void</code> - устанавливает текст ошибки валидации формы.</li>
+          <li><code>render(state: Partial & IFormState): HTMLElement</code> - обновляет состояние формы и возвращает HTML-элемент формы.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Order</code> расширяет базовый класс <code>Form&ltT&gt</code>
+      <p>Этот класс представляет собой</p>
+      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Поля:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+    </li>
+    <li>Класс <code>Contacts</code> расширяет базовый класс <code>Form&ltT&gt</code>
+      <p>Этот класс представляет собой</p>
+      <p>Конструктор: <code></code>.<br />Аргументами конструктора являются</p>
+      <p>Поля:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code></code> - .</li>
+        </ul>
+      </p>
     </li>
   </ul>
 </details>
