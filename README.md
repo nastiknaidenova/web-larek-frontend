@@ -142,14 +142,50 @@ yarn build
         </ul>
     </li>
     <li>Класс <code>AppState</code> наследуется от <code>Model</code>
-      <p></p>
-      <p></p>
-      <p></p>
+      <p>Этот класс представляет собой модель приложения и содержит данные о каталоге товаров, корзине, заказе, предпросмотре товара, ошибках формы и методах для управления этими данными. </p>
+      <p>Конструктор: не принимает аргументов и инициализирует поля класса соответствующими значениями.</p>
+      <p>Поля:
+        <ul>
+          <li><code>catalog: IProduct[]</code> - массив товаров в каталоге.</li>
+          <li><code>basket: IProduct[]</code> - массив товаров в корзине.</li>
+          <li><code>order: IOrder</code> - информация о заказе.</li>
+          <li><code>preview: string | null</code> - идентификатор предпросматриваемого товара.</li>
+          <li><code>formErrors: FormError</code> - объект, содержащий ошибки формы.</li>
+        </ul>
+      </p>
+      <p>Методы:
+        <ul>
+          <li><code>updateBasket(): void</code> - обновляет состояние корзины и вызывает соответствующие события.</li>
+          <li><code>clearBasket(): void</code> - очищает корзину.</li>
+          <li><code>clearOrder(): void</code> - очищает информацию о заказе.</li>
+          <li><code>setCatalog(items: IProduct[]): void</code> - устанавливает каталог товаров.</li>
+          <li><code>setPreview(item: Product): void</code> - устанавливает предпросматриваемый товар.</li>
+          <li><code>getOrderProducts(): IProduct[]</code> - возвращает товары из заказа.</li>
+          <li><code>productOrder(item: IProduct): boolean</code> - проверяет, содержится ли товар в заказе.</li>
+          <li><code>addToBasket(item: Product): void</code> - добавляет товар в корзину.</li>
+          <li><code>emoveFromBasket(id: string): void</code> - удаляет товар из корзины.</li>
+          <li><code>getTotal(): number</code> - вычисляет общую стоимость заказа.</li>
+          <li><code>setPaymentMethod(method: string): void</code> - устанавливает способ оплаты.</li>
+          <li><code>setOrderDeliveryField(value: string): void</code> - устанавливает адрес доставки.</li>
+          <li><code>setOrderContactField(field: keyof IOrderContacts, value: string): void</code> - устанавливает контактные данные заказа.</li>
+          <li><code>validateDelivery(): boolean</code> - валидирует данные о доставке и возвращает результат проверки.</li>
+          <li><code>validateContact(): boolean</code> - валидирует контактные данные и возвращает результат проверки.</li>
+        </ul>
+      </p>
     </li>
     <li>Класс <code>Product</code> наследуется от <code>Model</code>
-      <p></p>
-      <p></p>
-      <p></p>
+      <p>Этот класс представляет собой модель продукта в интернет-магазине. Он содержит информацию о продукте, такую как идентификатор, описание, изображение, название, категория и цена.</p>
+      <p>Конструктор: <code>constructor(data: IProduct)</code><br />В качестве аргумента конструктор принимает <code>data</code> - объект типа <code>IProduct</code>, содержащий информацию о продукте.</p>
+      <p>Поля:
+        <ul>
+          <li><code>id: string</code> - идентификатор продукта.</li>
+          <li><code>description: string</code> - описание продукта.</li>
+          <li><code>image: string</code> - URL изображения продукта.</li>
+          <li><code>title: string</code> - название продукта.</li>
+          <li><code>category: string</code> - категория продукта.</li>
+          <li><code>price: number</code> - цена продукта.</li>
+        </ul>
+      </p>
     </li>
   </ul>
 </details>
@@ -192,6 +228,19 @@ yarn build
 <details><a name="слой-презентера"></a>
   <summary>Слой презентера (Presenter)</summary>
   <ul>
+    <li>Класс <code>EventEmitter</code>
+      <p>Этот класс реализует паттерн "Наблюдатель", позволяет уведомлять и подписываться на события, так же сбрасывать от одного события либо же от всех событий.</p>
+      <p>Методы:
+        <ul>
+          <li><code>on</code> - подписка на событие.</li>
+          <li><code>off</code> -отписка от события.</li>
+          <li><code>emit</code> - уведомление о событии.</li>
+          <li><code>onAll</code> - подписка на все события.</li>
+          <li><code>offAll</code> - отписка от всех событий.</li>
+        </ul>
+      </p>
+      <p></p>
+    </li>
     <li>Базовый класс <code></code>
       <p></p>
       <p></p>
