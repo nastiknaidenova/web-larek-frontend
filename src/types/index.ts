@@ -59,7 +59,6 @@ export interface IOrder extends IOrderFormError {
   payment: PaymentMethods;
 }
 
-
 export interface IOrderSuccess {
   id: string;
   total: number;
