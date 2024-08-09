@@ -43,6 +43,7 @@
     <li><a href="#документация">Документация</a></li>
       <ul>
         <li><a href="#применяемая-архитектура-и-подход">Применяемая архитектура и подход</a></li>
+        <li><a href="#описание-данных">Описание данных</a></li>
         <li><a href="#слой-модели">Слой модели</a></li>
         <li><a href="#слой-представления">Слой представления</a></li>
         <li><a href="#слой-презентера">Слой презентера</a></li>
@@ -119,7 +120,122 @@ yarn build
 
 В проекте применяется событийно-ориентированный подход, основой которого служит реакция на происходящие в системе изменения.
 
-Опишем послойно классы проекта и их взаимодействия.
+Опишем сначала данные, а затем послойно классы проекта и их взаимодействие.
+***
+<details><a name="описание-данных"></a>
+  <summary>Описание данных</summary>
+  <ul>
+    <li>Тип <code>PaymentMethods = 'card' | 'cash' | ''</code>.
+      <p>Тип, описывающий способы оплаты.</p>
+    </li>
+    <li>Тип <code>CategoryType = 'софт-скилл' | 'хард-скилл' | 'другое' | 'кнопка' | 'доп'</code>.
+      <p>Тип, описывающий категории товаров.</p>
+    </li>
+    <li>Тип <code>FormError = Partial&ltRecord&ltkeyof IOrder, string&gt&gt</code>.
+      <p>Тип, описывающий ошибки валидации форм.</p>
+    </li>
+    <li>Интерфейс <code>IAppState</code> для хранения актуального состояния приложения. 
+      <p>Используется для хранения карточек, корзины, заказа пользователя, ошибок в формах.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>catalog: IProduct[]</code> - массив карточек товара.</li>
+          <li><code>order: IOrder || null</code> - информация о заказе при покупке товара.</li>
+          <li><code>basket: IProduct[] | null</code> - корзина с товарами.</li>
+          <li><code>preview: string | null</code> - предпросмотр товара.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IProduct</code>. 
+      <p>Интерфейс, отображающий возвращаемые данные карточки.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>id: string</code> - id товара.</li>
+          <li><code>categoty: string</code> - категория товара.</li>
+          <li><code>description: string</code> - описание товара.</li>
+          <li><code>image: string</code> - ссылка на изображение.</li>
+          <li><code>title: string</code> - название товара.</li>
+          <li><code>category: CategoryType</code> - категория товара.</li>
+          <li><code>price: number | null</code> - цена товара, может быть null.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IPage</code>. 
+      <p>Интерфейс, описывающий страницу.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>counter: number</code> - счётчик товаров в корзине.</li>
+          <li><code>store: HTMLElement[]</code> - массив карточек с товарами.</li>
+          <li><code>locked: boolean</code> - состояние прокрутки страницы для отключения при открытом модальном окне.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>ICard</code>. 
+      <p>Интерфейс, описывающий карточку товара.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>id: string</code> - id товара.</li>
+          <li><code>title: string</code> - название товара.</li>
+          <li><code>category: string</code> - категория товара.</li>
+          <li><code>description: string</code> - описание товара.</li>
+          <li><code>image: string</code> - ссылка на изображение.</li>
+          <li><code>price: number | null</code> - цена товара, может быть null.</li>
+          <li><code>selected: boolean</code> - состояние товара выбран/не выбран</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IBasket</code>. 
+      <p>Интерфейс, описывающий корзину товаров.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>list: HTMLElement[]</code> - массив элементов с товарами.</li>
+          <li><code>price: number</code> - общая цена товаров.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IOrderContacts</code>. 
+      <p>Интерфейс для ввода контактов.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>phone: string</code> - номер телефона.</li>
+          <li><code>email: string</code> - электронная почта.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IOrderDeliveryForm</code>. 
+      <p>Интерфейс для ввода адреса доставки и способа оплаты.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>address: string</code> - адрес доставки.</li>
+          <li><code>payment: PaymentMethods</code> - способ оплаты.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IOrderFormError</code> расширяет IOrderContacts и IOrderDeliveryForm. 
+      <p>Не содержит свойств. Нужен для объединения полей для случая ошибки заполнения.</p>
+    </li>
+    <li>Интерфейс <code>IOrder</code> расширяет IOrderFormError. 
+      <p></p>
+      <p>Свойства:
+        <ul>
+          <li><code>items: string[]</code> - массив id выбранных товаров.</li>
+          <li><code>total: number</code> - сумма заказа.</li>
+          <li><code>payment: PaymentMethods</code> - способ оплаты.</li>
+        </ul>
+      </p>
+    </li>
+    <li>Интерфейс <code>IOrderSuccess</code>. 
+      <p>Интерфейс, описывающий успешное оформление заказа.</p>
+      <p>Свойства:
+        <ul>
+          <li><code>id: string</code> - id заказа.</li>
+          <li><code>total: number</code> - сумма заказа.</li>
+        </ul>
+      </p>
+    </li>
+  </ul>
+</details>
+
+***
 ***
 <details><a name="слой-модели"></a>
   <summary>Слой модели (Model)</summary>
