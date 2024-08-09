@@ -162,7 +162,7 @@ yarn build
     <li>Базовый класс <code>Component&ltT&gt</code>
       <p>Это базовый абсткратный класс для отображения компонентов, от него наследуются компоненты представления.</p>
       <p>Конструктор: <code>constructor(protected readonly container: HTMLElement)</code>. В конструктор входит один аргумент- начальные данные для модели.</p>
-      <p>
+      <p>Методы:
         <ul>
           <li><code>toggleClass</code> - переключает классы элемента.</li>
           <li><code>setText</code> - устанавливает текст содержимого.</li>
