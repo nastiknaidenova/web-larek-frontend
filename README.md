@@ -74,7 +74,7 @@
 - `src/pages/index.html` — HTML-файл главной страницы
 - `src/types/index.ts` — файл с типами
 - `src/index.ts` — точка входа приложения
-- `src/styles/styles.scss` — корневой файл стилей
+- `src/scss/styles.scss` — корневой файл стилей
 - `src/utils/constants.ts` — файл с константами
 - `src/utils/utils.ts` — файл с утилитами
 
@@ -291,7 +291,7 @@ yarn build
           <li><code>getOrderProducts(): IProduct[]</code> - возвращает товары из заказа.</li>
           <li><code>productOrder(item: IProduct): boolean</code> - проверяет, содержится ли товар в заказе.</li>
           <li><code>addToBasket(item: Product): void</code> - добавляет товар в корзину.</li>
-          <li><code>emoveFromBasket(id: string): void</code> - удаляет товар из корзины.</li>
+          <li><code>removeFromBasket(id: string): void</code> - удаляет товар из корзины.</li>
           <li><code>getTotal(): number</code> - вычисляет общую стоимость заказа.</li>
           <li><code>setPaymentMethod(method: string): void</code> - устанавливает способ оплаты.</li>
           <li><code>setOrderDeliveryField(value: string): void</code> - устанавливает адрес доставки.</li>
@@ -302,8 +302,8 @@ yarn build
       </p>
     </li>
     <li>Класс <code>Product</code> расширяет базовый класс <code>Model&ltT&gt</code>
-      <p>Этот класс представляет собой модель продукта в интернет-магазине. Он содержит информацию о продукте, такую как идентификатор, описание, изображение, название, категория и цена.</p>
-      <p>Конструктор: <code>constructor(data: IProduct)</code><br />В качестве аргумента конструктор принимает <code>data</code> - объект типа <code>IProduct</code>, содержащий информацию о продукте.</p>
+      <p>Этот класс представляет собой модель продукта в интернет-магазине. Он инкапсулирует информацию о продукте, включая его идентификатор, описание, изображение, название, категорию и цену. Этот класс также наследует функциональность для управления событиями от базового класса Model&ltT&gt.</p>
+      <p>Конструктор: <code>constructor(data: IProduct)</code><br />В качестве аргумента конструктор принимает <code>data</code> - объект типа <code>IProduct</code>, который содержит информацию о продукте. Вызов конструктора базового класса <code>Model&ltT&gt</code> происходит с использованием метода <code>Object.assign</code>, что позволяет автоматически присвоить значения свойствам экземпляра на основе переданного объекта.</p>
       <p>Поля:
         <ul>
           <li><code>id: string</code> - идентификатор продукта.</li>
@@ -314,6 +314,7 @@ yarn build
           <li><code>price: number</code> - цена продукта.</li>
         </ul>
       </p>
+      <p>Наследование: Класс <code>Product</code> наследует от абстрактного класса <code>Model&ltT&gt</code>, который предоставляет следующие функцию управления событиями: класс <code>Product</code> может вызывать события через метод <code>emitChanges</code>, унаследованный от <code>Model&ltT&gt</code>. Этот метод позволяет уведомлять об изменениях состояния экземпляра, передавая соответствующий <code>event</code> и необязательный объект <code>payload</code>.</p>
     </li>
   </ul>
 </details>

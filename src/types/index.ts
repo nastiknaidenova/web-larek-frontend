@@ -11,55 +11,55 @@ export interface IAppState {
 }
 
 export interface IProduct {
-  id: string,
-  description: string,
-  image: string,
-  title: string,
-  category: string,
-  price: number | null,
+    id: string,
+    description: string,
+    image: string,
+    title: string,
+    category: string,
+    price: number | null,
 }
 
 export interface IPage {
     counter: number;
     store: HTMLElement[];
     locked: boolean;
-  }
+}
 
 export interface ICard {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  price: number | null;
-  selected: boolean;
-  button: string;
+    id: string;
+    title: string;
+    category: string;
+    description: string;
+    image: string;
+    price: number | null;
+    selected: boolean;
+    button: string;
 }
 
 export interface IBasket {
-  list: HTMLElement[];
-  price: number;
+    list: HTMLElement[];
+    price: number;
 }
 
 export interface IOrderContacts {
-  email: string,
-  phone: string,
+    email: string,
+    phone: string,
 }
 
 export interface IOrderDeliveryForm {
-  payment: PaymentMethods,
-  address: string,
+    payment: PaymentMethods,
+    address: string,
 }
 
 export interface IOrderFormError extends IOrderContacts, IOrderDeliveryForm {}
 
 export interface IOrder extends IOrderFormError {
-  items: string[],
-  total: number;
-  payment: PaymentMethods;
+    items: string[],
+    total: number;
+    payment: PaymentMethods;
 }
 
 export interface IOrderSuccess {
-  id: string;
-  total: number;
+    id: string;
+    total: number;
 }
