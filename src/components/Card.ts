@@ -6,7 +6,7 @@ export interface ICardAction {
     onClick: (event: MouseEvent) => void;
 }
 
-export class Card<T> extends Component<ICard> {
+export class Card extends Component<ICard> {
     protected _title: HTMLElement;
     protected _image?: HTMLImageElement;
     protected _category?: HTMLElement;
@@ -37,14 +37,6 @@ export class Card<T> extends Component<ICard> {
                 this._button.addEventListener('click', action.onClick);
             } else {
                 container.addEventListener('click', action.onClick);
-            }
-        }
-    }
-
-    priceDisabled(value: number | null) {
-        if (!value) {
-            if (this._button) {
-                this._button.disabled = true;
             }
         }
     }
@@ -80,7 +72,6 @@ export class Card<T> extends Component<ICard> {
 
     set price(value: number | null) {
         this.setText(this._price, (value) ? `${value.toString()} синапсов` : 'Бесценно');
-        this.priceDisabled(value);
     }
 
     get price(): number {
@@ -142,7 +133,11 @@ export class BasketItem extends Component<IBasketItem> {
         this.setText(this._title, value);
     }
 
-    set price(value: number) {
-        this.setText(this._price, value);
+    set price(value: number | null) {
+        if (value === null) {
+            this.setText(this._price, 'Бесценно');
+        } else {
+            this.setText(this._price, value);
+        }
     }
 }

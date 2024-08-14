@@ -3,23 +3,14 @@ import { IAppState, IProduct, IOrder, FormError,
          IOrderContacts, PaymentMethods } from '../types';
 
 export type CatalogChangeEvent = {
-    catalog: Product[];
-}
-
-export class Product extends Model<IProduct> implements IProduct {
-    id: string;
-    description: string;
-    image: string;
-    title: string;
-    category: string;
-    price: number;
+    catalog: IProduct[];
 }
 
 export class AppState extends Model<IAppState> {
     catalog: IProduct[];
     basket: IProduct[] = [];
     order: IOrder = {
-        payment: 'card',
+        payment: '',
         items: [],
         total: 0,
         email: '',
@@ -41,7 +32,7 @@ export class AppState extends Model<IAppState> {
 
     clearOrder() {
         this.order = {
-            payment: 'card',
+            payment: '',
             items: [],
             total: 0,
             email: '',
@@ -51,11 +42,11 @@ export class AppState extends Model<IAppState> {
     }
 
     setCatalog(items: IProduct[]) {
-        this.catalog = items.map(item => new Product(item, this.events));
+        this.catalog = items.map(item => new Model<IProduct>(item, this.events));
         this.emitChanges('items:changed', { catalog: this.catalog });
     }
 
-    setPreview(item: Product) {
+    setPreview(item: IProduct) {
         this.preview = item.id;
         this.emitChanges('preview:changed', item);
     }
@@ -68,16 +59,17 @@ export class AppState extends Model<IAppState> {
         return this.basket.includes(item);
     } 
 
-    addToBasket(item: Product) {
-        if (this.basket.indexOf(item) < 0) {
-            this.basket.push(item);
-            this.updateBasket();
-        }
+    addToBasket(item: IProduct) {
+        this.basket.push(item);
+        this.updateBasket();
     }
 
     removeFromBasket(id: string) {
-        this.basket = this.basket.filter((it) => it.id != id);
-        this.emitChanges('basket:changed');
+        const index = this.basket.findIndex((it) => it.id === id);
+        if (index !== -1) {
+            this.basket.splice(index, 1);
+            this.emitChanges('basket:changed');
+        }
     }
 
     getTotal(): number {

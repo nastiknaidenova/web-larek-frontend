@@ -27,6 +27,6 @@ export class Order extends Form<IOrderDeliveryForm> {
     }
 
     set address(value: string) {
-        this._addressInput.value = value;
+        this.setText(this._addressInput, value);
     }
 }

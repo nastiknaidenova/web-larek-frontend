@@ -13,10 +13,10 @@ export class Contacts extends Form<IOrderContacts> {
     }
 
     set phone(value: string) {
-        this._phoneInput.value = value;
+        this.setText(this._phoneInput, value);
     }
 
     set email(value: string) {
-        this._emailInput.value = value;
+        this.setText(this._emailInput, value);
     }
 }
