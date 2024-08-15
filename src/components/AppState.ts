@@ -42,7 +42,7 @@ export class AppState extends Model<IAppState> {
     }
 
     setCatalog(items: IProduct[]) {
-        this.catalog = items
+        this.catalog = items;
         this.emitChanges('items:changed', { catalog: this.catalog });
     }
 
