@@ -80,7 +80,7 @@ events.on('basket:changed', () => {
         })
     })
     basket.total = total;
-    appState.order.total = total;
+    //appState.order.total = total;
 })
 
 
@@ -140,9 +140,6 @@ events.on('order:open', () => {
             errors: [],
         })
     })
-    appState.order.items = appState.basket
-        .filter((item) => item.price != null)
-        .map((item) => item.id);
 })
 
 
@@ -190,6 +187,12 @@ events.on('contactFormError:change', (errors: Partial<IOrderContacts>) => {
 
 
 events.on('contacts:submit', () => {
+    let total = 0;
+    appState.getOrderProducts().forEach((item) => { total += item.price });
+    appState.order.total = total;
+    appState.order.items = appState.basket
+        .filter((item) => item.price != null)
+        .map((item) => item.id);
     api.orderProduct(appState.order)
     .then((result) => {
         appState.clearBasket()
